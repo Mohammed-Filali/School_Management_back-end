@@ -29,6 +29,8 @@ import {
     SheetTrigger,
   } from "@/components/ui/sheet"
 import ParentUpsertForm from "../../forms/ParentUpsertForm";
+import { Loader2 } from "lucide-react";
+import moment from "moment/moment";
 
 
 
@@ -39,9 +41,10 @@ import ParentUpsertForm from "../../forms/ParentUpsertForm";
 
 export default function AdminParentList() {
     const[data , setData] =useState([])
+    const [loading , setLoading]=useState(true)
     useEffect(()=>{
         ParentApi.all().then(({data})=>{
-
+            setLoading(false)
            setData(data)
         })
     },[])
@@ -128,8 +131,8 @@ export default function AdminParentList() {
 
               },
             cell: ({ row }) => {
-                const updated_at = (row.getValue("updated_at"))
-                const formated = new Date(updated_at).toString()
+                const date = (row.getValue("updated_at"))
+                const formated =  moment(new Date(date).toString()).format('d-m-y')
                 return <>{formated}</>
               },
         },
@@ -181,13 +184,13 @@ export default function AdminParentList() {
                               </AlertDialogFooter>
                             </AlertDialogContent>
                           </AlertDialog>
-                          <Sheet>
+                          <Sheet >
                           <SheetTrigger>
                             <Button size={'sm'}>
                                 Update
                             </Button>
                           </SheetTrigger>
-                          <SheetContent>
+                          <SheetContent  className='overflow-y-auto p-4'>
                             <SheetHeader>
                               <SheetTitle>Update Parent {firsName} {lastName} </SheetTitle>
                               <SheetDescription>
@@ -214,7 +217,9 @@ export default function AdminParentList() {
             },
           },
     ]
-
+    if (loading) return <div><div className="w-full  flex items-center justify-center">
+    <Loader2 className="w-12 h-12 animate-spin text-blue-500" />
+  </div></div>;
 return<>
     <DataTable columns={AdminParentColumns} data={data} />
 </>

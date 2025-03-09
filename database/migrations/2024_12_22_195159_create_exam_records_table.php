@@ -16,8 +16,8 @@ return new class extends Migration
     {
         Schema::create('exam_records', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Exam::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Exam::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
             $table->unsignedFloat('note');
             $table->text('comment');
             $table->softDeletes();

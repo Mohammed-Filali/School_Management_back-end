@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { ParentApi } from "../../../service/api/student/admins/parenpApi";
 import { Textarea } from "@/components/ui/textarea";
-import { ClasseApi } from "../../../service/api/student/admins/ClasseApi copy";
+import { ClasseApi } from "../../../service/api/student/admins/ClasseApi";
 
 const formSchema = z.object({
   name: z.string().max(50),
@@ -39,7 +39,9 @@ export default function StudentUpsertForm({ handleSubmit, values }) {
           adress: values?.adress || '',
           phone: values?.phone || '',
           email: values?.email || '',
-          password: values?.password || ''
+          password: values?.password || '',
+          student_parent_id:values?.student_parent_id || '',
+          classe_id:values?.classe_id || '',
         }
       });
   const { setError, formState: { isSubmitting }, reset } = form;

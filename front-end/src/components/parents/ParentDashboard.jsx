@@ -19,14 +19,15 @@ export default function StudentDashboard() {
                 src={user.profileImage || "https://via.placeholder.com/150"} // Default image URL if no user image
               />
               <Avatar.Fallback className="w-full h-full flex items-center justify-center bg-gray-300 text-gray-600 text-lg font-bold">
-                {user.fisName?.charAt(0).toUpperCase()}
+                {user.firsName?.charAt(0).toUpperCase()}
               </Avatar.Fallback>
             </Avatar.Root>
             <h2 className="mt-4 text-2xl font-bold text-gray-900 dark:text-white">
-              {user.fisName}{" "}{user.lastName}
+              {user.firsName}{" "}{user.lastName}
             </h2>
             <p className="text-gray-500 dark:text-gray-400">{user.email}</p>
           </div>
+
 
           {/* Details Section */}
           <div className="p-6 space-y-4 text-gray-700 dark:text-gray-400">

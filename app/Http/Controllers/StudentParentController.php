@@ -40,13 +40,11 @@ class StudentParentController extends Controller
             ], 201);
 
         } catch (\Exception $e) {
-            // If something goes wrong, return an error message
             return response()->json([
                'message' => 'Failed to create parent',
             'errors' => [
                 'message' => $e->getMessage(),
                 'code' => $e->getCode(),
-                // You can add more error details if needed, such as file/line info:
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),],
                 ], 500);
@@ -72,24 +70,20 @@ class StudentParentController extends Controller
     }
 
     try {
-        // Update the parent record
 
         $newParent=$request->validated();
         $newParent['password'] = Hash::make($newParent['password']);
 
         $Parent->update($newParent);
 
-        // Return a success response
         return response()->json([
             'message' => 'Parent successfully updated!',
             'data' => $Parent,
             'status' => 201,
         ], 201);
     } catch (ModelNotFoundException $e) {
-        // Handle case where the parent is not found
         return response()->json(['message' => 'Parent not found'], 404);
     } catch (\Exception $e) {
-        // Handle other exceptions
         return response()->json(['message' => 'Failed to update parent'], 500);
     }
 }
@@ -116,7 +110,7 @@ class StudentParentController extends Controller
                 }
             }
 
-            public function updatePassword(Request $request)
+        public function updatePassword(Request $request)
             {
                 $request->validate([
                     'current_password' => 'required',
@@ -125,12 +119,10 @@ class StudentParentController extends Controller
 
                 $user = $request->user();
 
-                // Check current password
                 if (!Hash::check($request->current_password, $user->password)) {
                     return response()->json(['error' => 'Current password is incorrect.'], 400);
                 }
 
-                // Update password
                 $user->password = Hash::make($request->new_password);
                 $user->save();
 

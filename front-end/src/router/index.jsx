@@ -23,6 +23,13 @@ import ParentManageRecord from "../components/parents/Records/ParentManageRecord
 import StudentRecordsDropdown from "../components/parents/Records/ParentManageRecords";
 import { UseUserContext } from "../context/StudentContext";
 import ForgotPasswordForm from "../components/forgotPassword";
+import Tasks from "../pages/Tasks";
+import StudentProfile from "../components/Student/StudentProfile";
+import AdminProfile from "../components/Admin/AdminProfile";
+import TeacherProfile from "../components/Teacher/TeaxherProfile";
+import About from "../pages/about";
+import ManageType from "../components/Admin/pages/ManageType";
+import Formations from "../pages/Formations";
 
 export const LOGIN_ROUTE = '/login'
 
@@ -31,8 +38,10 @@ export const LOGIN_ROUTE = '/login'
 
 const STUDENT_BASE_ROUTE = '/student'
 export const STUDENT_DUSHBOARD_ROUTE =STUDENT_BASE_ROUTE+'/dashboard'
+export const STUDENT_PROFILE_ROUTE =STUDENT_BASE_ROUTE+'/profile'
 export const STUDENT_MANAGE_EXAMS_ROUTE =STUDENT_BASE_ROUTE+'/manage-exams'
 export const STUDENT_MANAGE_RECORDS_ROUTE =STUDENT_BASE_ROUTE+'/manage-records'
+export const STUDENT_MANAGE_TASKS_ROUTE =STUDENT_BASE_ROUTE+'/manage-tasks'
 
 
 
@@ -41,11 +50,16 @@ export const STUDENT_MANAGE_RECORDS_ROUTE =STUDENT_BASE_ROUTE+'/manage-records'
 
 const ADMIN_BASE_ROUTE = '/admin'
 export const ADMIN_DUSHBOARD_ROUTE =ADMIN_BASE_ROUTE+'/dashboard'
+export const ADMIN_PROFILE_ROUTE =ADMIN_BASE_ROUTE+'/profile'
 export const ADMIN_MANAGE_PARENTS_ROUTE =ADMIN_BASE_ROUTE+'/manage-parents'
 export const ADMIN_MANAGE_STUDENTS_ROUTE =ADMIN_BASE_ROUTE+'/manage-students'
 export const ADMIN_MANAGE_TEACHERS_ROUTE =ADMIN_BASE_ROUTE+'/manage-teachers'
 export const ADMIN_MANAGE_Clases_ROUTE =ADMIN_BASE_ROUTE+'/manage-classes'
 export const ADMIN_MANAGE_Cours_ROUTE =ADMIN_BASE_ROUTE+'/manage-cours'
+export const ADMIN_MANAGE_TASKS_ROUTE =ADMIN_BASE_ROUTE+'/manage-tasks'
+export const ADMIN_MANAGE_TYPES_ROUTE =ADMIN_BASE_ROUTE+'/manage-types'
+
+
 
 
 
@@ -57,6 +71,8 @@ const TEACHER_BASE_ROUTE = '/teacher'
 export const TEACHER_MANAGE_EXAMS_ROUTE =TEACHER_BASE_ROUTE+'/manage-exams'
 export const TEACHER_MANAGE_RECORDS_ROUTE =TEACHER_BASE_ROUTE+'/manage-records'
 export const TEACHER_DASHBOARD_ROUTE = '/teacher/dashboard'
+export const TEACHER_PROFILE_ROUTE = '/teacher/profile'
+export const TEACHER_MANAGE_TASKS_ROUTE = '/teacher/manage-tasks'
 
 
 
@@ -69,6 +85,12 @@ export const TEACHER_DASHBOARD_ROUTE = '/teacher/dashboard'
 const PARENT_BASE_ROUTE = '/parent'
 export const PARENT_DUSHBOARD_ROUTE =PARENT_BASE_ROUTE+'/dashboard'
 export const PARENT_MANAGE_RECORDS_ROUTE =PARENT_BASE_ROUTE+'/manage-records'
+export const PARENT_MANAGE_TASKS_ROUTE =PARENT_BASE_ROUTE+'/manage-tasks'
+
+
+
+
+
 
 
 export const RedirectRoute =(role)=>{
@@ -100,7 +122,19 @@ export const  Router = createBrowserRouter([
             path: "/",
            element: <Home />,
 
-          },{
+          },
+          {
+            path: "/about",
+           element: <About />,
+
+          },
+          {
+            path: "/formations",
+           element: <Formations />,
+
+          },
+
+          {
             path: "*",
            element: <h1>Not found</h1>,
 
@@ -112,6 +146,16 @@ export const  Router = createBrowserRouter([
             {
                 path: "/login",
                element: <Login />,
+
+              },
+              {
+                path: "/formations",
+               element: <Formations />,
+
+              },
+              {
+                path: "/about",
+               element: <About />,
 
               },
               {
@@ -131,6 +175,11 @@ export const  Router = createBrowserRouter([
                element: <StudentDashboard />,
 
               },
+              {
+                path: STUDENT_PROFILE_ROUTE,
+               element: <StudentProfile />,
+
+              },
 
 
               {
@@ -138,6 +187,13 @@ export const  Router = createBrowserRouter([
                element: <StudentManageRecords />,
 
               },
+
+              {
+                path: STUDENT_MANAGE_TASKS_ROUTE,
+               element: <Tasks />,
+
+              },
+
         ]
     },
 
@@ -152,8 +208,19 @@ export const  Router = createBrowserRouter([
 
               },
               {
+                path: ADMIN_PROFILE_ROUTE,
+               element: <AdminProfile />,
+
+              },
+
+              {
                 path: ADMIN_MANAGE_PARENTS_ROUTE,
                element: <ManageParents />,
+
+              },
+              {
+                path: ADMIN_MANAGE_TYPES_ROUTE,
+               element: <ManageType />,
 
               },
               {
@@ -177,6 +244,12 @@ export const  Router = createBrowserRouter([
                element: <ManageCours />,
 
               },
+              {
+                path: ADMIN_MANAGE_TASKS_ROUTE,
+
+               element: <Tasks />,
+
+              },
         ]
     },
 
@@ -196,6 +269,11 @@ export const  Router = createBrowserRouter([
            element: <StudentRecordsDropdown  />,
 
           },
+          {
+            path: PARENT_MANAGE_TASKS_ROUTE,
+           element: <Tasks  />,
+
+          },
         ]
       },
 
@@ -209,6 +287,11 @@ export const  Router = createBrowserRouter([
             element: <TeacherDashboard/>
           },
           {
+            path: TEACHER_PROFILE_ROUTE,
+            element: <TeacherProfile/>
+          },
+
+          {
             path: TEACHER_MANAGE_EXAMS_ROUTE,
            element: <ManageExams />,
 
@@ -216,6 +299,11 @@ export const  Router = createBrowserRouter([
           {
             path: TEACHER_MANAGE_RECORDS_ROUTE,
            element: <ManageRecords />,
+
+          },
+          {
+            path: TEACHER_MANAGE_TASKS_ROUTE,
+           element: <Tasks />,
 
           },
         ]

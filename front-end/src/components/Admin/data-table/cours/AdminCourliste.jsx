@@ -29,6 +29,8 @@ import {
   } from "@/components/ui/sheet"
 import CourUpsertForm from "../../forms/CourUpsertForm";
 import { CourApi } from "../../../../service/api/student/admins/CourApi";
+import { Loader2 } from "lucide-react";
+import moment from "moment/moment";
 
 
 
@@ -39,9 +41,10 @@ import { CourApi } from "../../../../service/api/student/admins/CourApi";
 
 export default function AdminCourList() {
     const[data , setData] =useState([])
+    const [loading , setLoading]=useState(true)
     useEffect(()=>{
         CourApi.all().then(({data})=>{
-
+            setLoading(false)
            setData(data.data)
         })
     },[])
@@ -77,8 +80,8 @@ export default function AdminCourList() {
 
               },
             cell: ({ row }) => {
-                const updated_at = (row.getValue("updated_at"))
-                const formated = new Date(updated_at).toString()
+                const date = (row.getValue("updated_at"))
+                const formated =  moment(new Date(date).toString()).format('d-m-y')
                 return <>{formated}</>
               },
         },
@@ -163,6 +166,11 @@ export default function AdminCourList() {
             },
           },
     ]
+
+
+    if (loading) return <div><div className="w-full  flex items-center justify-center">
+  <Loader2 className="w-12 h-12 animate-spin text-blue-500" />
+</div></div>;
 
 return<>
     <DataTable columns={AdminCourColumns} data={data} />

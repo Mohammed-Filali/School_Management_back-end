@@ -5,18 +5,6 @@ import { DataTable } from "../../Admin/data-table/DataTable";
 import { DataTableColumnHeader } from "../../Admin/data-table/DataTableColumnHeader";
 import { Button } from "@/components/ui/button";
 
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-  } from "@/components/ui/alert-dialog"
-  import { toast } from "sonner"
 
 
   import {
@@ -27,10 +15,10 @@ import {
     SheetTitle,
     SheetTrigger,
   } from "@/components/ui/sheet"
-import ExamUpsertForm from "./RecordsUpsertForm";
 import { ClassTeacherApi } from "../../../service/api/student/teachers/classApi";
 import { ExamApi } from "../../../service/api/student/teachers/ExamApi";
 import RecordsUpsertForm from "./RecordsUpsertForm";
+import moment from "moment";
 
 
 
@@ -41,12 +29,16 @@ import RecordsUpsertForm from "./RecordsUpsertForm";
 
 export default function TeacherRecordsList({id}) {
     const[data , setData] =useState([])
+    const [isLoading, setIsLoadin]=useState(true)
     const [students,setStudents]=useState([])
     useEffect(()=>{
         if(data.length===0){
         ClassTeacherApi.students().then(({data})=>{
-
+            setIsLoadin(false)
            setData(data.data)
+        }).catch((err)=>{
+            console.log(err);
+            setIsLoadin(false)
         })
         }
 
@@ -134,8 +126,9 @@ export default function TeacherRecordsList({id}) {
           },
           cell: ({row}) => {
             const date = (row.getValue("updated_at"))
+            const formated =  moment(new Date(date).toString()).format('d-m-y')
 
-            return <div className="text-right font-medium">{date}</div>
+            return <div className="text-right font-medium">{formated}</div>
           },
         },
         {
@@ -168,7 +161,7 @@ export default function TeacherRecordsList({id}) {
       ]
 
 return<>
-    <DataTable columns={studentColumns} data={students} />
+    <DataTable columns={studentColumns} data={students} isLoading={isLoading} />
 </>
 
 }

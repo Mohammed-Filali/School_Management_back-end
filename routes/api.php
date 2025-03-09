@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdmineController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\ClassTypeController;
 use App\Http\Controllers\ClassTypeCourseController;
@@ -54,24 +56,19 @@ Route::middleware(['auth:sanctum','ability:student'])->prefix('student')->group(
 
 
 Route::middleware(['auth:sanctum','ability:parent'])->prefix('parent')->group( static function(){
-
     Route::apiResource( 'parents' , StudentParentController::class)->only(['index', 'show','update']);
-    Route::apiResource('students' , StudentController::class)->only(['index', 'show'])->names([
-        'index' => 'parent.students.index',   // Custom name for the index route
-        'show' => 'parent.students.show',     // Custom name for the show route
-    ]);
-    Route::apiResource('Exams', ExamController::class)->only(['index', 'show'])->names([
-        'index' => 'parent.Exams.index',  // Custom name for the index route
-        'show' => 'parent.Exams.show',    // Custom name for the show route
-    ]);;
-    Route::apiResource('Records', ExamRecordController::class)->only(['index', 'show'])->names([
-        'index' => 'teacher.Records.index',  // Custom name for the index route
-        'show' => 'teacher.Records.show',    // Custom name for the show route
-    ]);;
+    Route::apiResource('students' , StudentController::class)->only(['index', 'show']);
+    Route::apiResource('Exams', ExamController::class)->only(['index', 'show']);
+    Route::apiResource('Records', ExamRecordController::class)->only(['index', 'show']);
     Route::post('/update-password', [StudentParentController::class, 'updatePassword']);
+
 });
 
-// For Admin routes
+Route::apiResource('classeTypes', ClassTypeController::class)->only(['index', 'show']);
+Route::apiResource('cours', CourseController::class)->only(['index', 'show']);
+
+
+
 Route::middleware(['auth:sanctum','ability:admin'])->prefix('admin')->group( static function(){
 
     Route::apiResources([
@@ -80,16 +77,15 @@ Route::middleware(['auth:sanctum','ability:admin'])->prefix('admin')->group( sta
         'teachers' => TeacherController::class,
         'classes' => ClasseController::class,
         'cours' => CourseController::class,
-        'classeTypes' => ClassTypeController::class,
         'classeCoursTypes' => ClassTypeCourseController::class,
-    ], ['names' => [
-        'students.index' => 'admin.students.index', // Custom name for the index route
-        'students.show' => 'admin.students.show',
-        'parents.index' => 'admin.parents.index', // Custom name for the index route
-        'parents.show' => 'admin.parents.show',
-        'parents.update' => 'admin.parents.update',
-    ]]);
-});
+        ]) ;
+        Route::post('/update-password', [AdmineController::class, 'updatePassword']);
+
+        Route::apiResource('classeTypes', ClassTypeController::class)->except(['update']);
+
+        Route::post('classeTypes/{id}', [ClassTypeController::class, 'update']);
+    });
+
 
 Route::middleware(['auth:sanctum','ability:teacher'])->prefix('teacher')->group( static function(){
     Route::apiResources([
@@ -98,14 +94,14 @@ Route::middleware(['auth:sanctum','ability:teacher'])->prefix('teacher')->group(
     'classeTypes' => ClassTypeController::class,
     'classeCoursTypes' => ClassTypeCourseController::class,
     'cours' => CourseController::class,
-
+    'Exams' => ExamController::class,
     'Records' => ExamRecordController::class,
     ]) ;
     Route::post('/update-password', [TeacherController::class, 'updatePassword']);
-    Route::apiResource('Exams', ExamController::class)->names([
-        'index' => 'teacher.Exams.index',  // Custom name for the index route
-        'show' => 'teacher.Exams.show',    // Custom name for the show route
-    ]);
+
 });
+
+    Route::apiResource('tasks', TaskController::class);
+
 
 // require __DIR__.'/auth.php';

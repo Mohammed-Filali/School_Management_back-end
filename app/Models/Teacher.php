@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Task;
+
 use App\Models\Course;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Teacher extends Authenticatable
@@ -31,10 +34,14 @@ class Teacher extends Authenticatable
         return 'teacher';
     }
 
-    
+
     public function course()
     {
         return $this->belongsTo(Course::class);
+    }
+
+    public function tasks(): MorphMany {
+        return $this->morphMany(Task::class, 'taskable');
     }
 
 

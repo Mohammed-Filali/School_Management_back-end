@@ -10,9 +10,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { StudentApi } from "../../../service/api/student/studentApi";
 import { UseUserContext } from "../../../context/StudentContext";
 import { SParentApi } from "../../../service/api/student/parentApi";
+import { Loader2 } from "lucide-react";
 
 export default function ParentRecordsList({classe_id , student_name}) {
   const { user } = UseUserContext();
@@ -140,7 +140,9 @@ export default function ParentRecordsList({classe_id , student_name}) {
 
   ];
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div><div className="w-full  flex items-center justify-center">
+  <Loader2 className="w-12 h-12 animate-spin text-blue-500" />
+</div></div>;
   if (error) return <div>{error}</div>;
 
   return <DataTable columns={RecordColumns} data={data} />;

@@ -57,16 +57,50 @@ class ExamController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Exam $exam)
+    public function update(ExamRequest $request, $id)
     {
-      //
+        $exam = Exam::find($id) ;
+
+        try{
+            $exams= $request->validated();
+            $exam->fill($exams)->save();
+            $response = new ExamResource($exam) ;
+            return response()->json([
+                'Exame' => $response,
+                'message' =>('Exame created successfully')
+              ]);
+        }catch(Exception $e){
+            return response()->json([
+                'message' => 'Failed to create Exame',
+             'errors' => [
+                 'message' => $e->getMessage(),
+                 'code' => $e->getCode(),
+                ],
+                 ], 500);
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Exam $exam)
+    public function destroy($id)
     {
-        //
-    }
+        $exam =Exam::find($id);
+       try{
+           $exam->delete();
+
+          return response()->json([
+           'message' => 'Exam successfully deleted!',
+           'data' => $exam ,
+           'status' =>201
+           ], 201);
+
+       }catch (\Exception $e) {
+           return response()->json([
+              'message' => 'Failed to delete exam',
+               ], 500);
+           }
+       }
+
 }

@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('class_type_courses', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(ClassType::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Course::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(ClassType::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(Course::class)->constrained()->onDelete('cascade');
             $table->unsignedTinyInteger('coef');
             $table->softDeletes();
             $table->timestamps();

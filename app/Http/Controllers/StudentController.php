@@ -32,8 +32,9 @@ class StudentController extends Controller
     ]);
   }
 
-  public function update(UpdateStudentRequest $request, User $student): JsonResponse
+  public function update(UpdateStudentRequest $request, $id): JsonResponse
   {
+    $student=User::find($id);
     $formFields = $request->validated();
     $formFields['password'] = Hash::make($formFields['password']);
     $student->update($formFields);
@@ -60,12 +61,10 @@ class StudentController extends Controller
 
       $user = $request->user();
 
-      // Check current password
       if (!Hash::check($request->current_password, $user->password)) {
           return response()->json(['error' => 'Current password is incorrect.'], 400);
       }
 
-      // Update password
       $user->password = Hash::make($request->new_password);
       $user->save();
 

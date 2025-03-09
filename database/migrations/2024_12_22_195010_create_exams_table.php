@@ -17,9 +17,9 @@ return new class extends Migration
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignIdFor(Classe::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Teacher::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Course::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Classe::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(Teacher::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(Course::class)->constrained()->onDelete('cascade');
             $table->enum('type',['cc','efm']);
             $table->softDeletes();
             $table->timestamps();

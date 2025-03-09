@@ -37,7 +37,6 @@ class CourseController extends Controller
              'errors' => [
                  'message' => $e->getMessage(),
                  'code' => $e->getCode(),
-                 // You can add more error details if needed, such as file/line info:
                  'file' => $e->getFile(),
                  'line' => $e->getLine(),],
                  ], 500);
@@ -55,12 +54,12 @@ class CourseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CourStoreRequest $request, Course $course)
+    public function update(CourStoreRequest $request, $id )
     {
+        $course= Course::find($id);
         try{
             $newcours= $request->validated();
             $course->fill($newcours)->save() ;
-            // $response = new CourResource($course) ;
             return response()->json([
                 'Cour' => $course,
                 'message' => __('Cour Updated successfully')
@@ -71,7 +70,6 @@ class CourseController extends Controller
              'errors' => [
                  'message' => $e->getMessage(),
                  'code' => $e->getCode(),
-                 // You can add more error details if needed, such as file/line info:
                  'file' => $e->getFile(),
                  'line' => $e->getLine(),],
                  ], 500);
@@ -81,8 +79,9 @@ class CourseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Course $course)
+    public function destroy($id)
     {
+        $course =Course::find($id);
         try{
             $course->delete();
 
@@ -93,7 +92,6 @@ class CourseController extends Controller
             ], 201);
 
         }catch (\Exception $e) {
-            // If something goes wrong, return an error message
             return response()->json([
                'message' => 'Failed to delete Cour',
                 ], 500);

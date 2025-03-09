@@ -29,6 +29,8 @@ import {
   } from "@/components/ui/sheet"
 import { TeacherApi } from "../../../../service/api/student/teacherApi";
 import TeacherUpsertForm from "../../forms/TeacherUpsertForm";
+import { Loader2 } from "lucide-react";
+import moment from "moment/moment";
 
 
 
@@ -39,9 +41,10 @@ import TeacherUpsertForm from "../../forms/TeacherUpsertForm";
 
 export default function AdminTeacherList() {
     const[data , setData] =useState([])
+    const [loading , setLoading]=useState(true)
     useEffect(()=>{
         TeacherApi.all().then(({data})=>{
-
+                setLoading(false)
            setData(data.data)
         })
     },[])
@@ -128,8 +131,8 @@ export default function AdminTeacherList() {
 
               },
             cell: ({ row }) => {
-                const updated_at = (row.getValue("updated_at"))
-                const formated = new Date(updated_at).toString()
+                const date = (row.getValue("updated_at"))
+                const formated =  moment(new Date(date).toString()).format('d-m-y')
                 return <>{formated}</>
               },
         },
@@ -187,7 +190,7 @@ export default function AdminTeacherList() {
                                 Update
                             </Button>
                           </SheetTrigger>
-                          <SheetContent>
+                          <SheetContent  className='overflow-y-auto p-4'>
                             <SheetHeader>
                               <SheetTitle>Update teacher {firsName} {lastName} </SheetTitle>
                               <SheetDescription>
@@ -216,6 +219,11 @@ export default function AdminTeacherList() {
             },
           },
     ]
+
+
+    if (loading) return <div><div className="w-full  flex items-center justify-center">
+  <Loader2 className="w-12 h-12 animate-spin text-blue-500" />
+</div></div>;
 
 return<>
     <DataTable columns={AdminteacherColumns} data={data} />

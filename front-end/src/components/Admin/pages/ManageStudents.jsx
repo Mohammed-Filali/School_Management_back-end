@@ -11,7 +11,7 @@ import AdminStudentList from "../data-table/students/AdminStudentList.jsx";
 import { StudentApi } from "../../../service/api/student/studentApi.js";
 import { AdminApi } from "../../../service/api/student/admins/adminApi.js";
 import { useEffect, useState } from "react";
-import { ClasseApi } from "../../../service/api/student/admins/ClasseApi copy.js";
+import { ClasseApi } from "../../../service/api/student/admins/ClasseApi.js";
 
 export default function ManageStudents() {
     const { user } = UseUserContext();

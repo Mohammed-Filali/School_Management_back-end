@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Classe;
+use App\Models\Course;
 use App\Models\ClassTypeCourse;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
@@ -24,5 +25,9 @@ class ClassType extends Model
     public function classeTypeCourse(){
         return $this ->hasMany(ClassTypeCourse::class);
     }
-    
+
+    public function Courses(){
+        return $this ->belongsToMany(Course::class);
+    }
+
 }

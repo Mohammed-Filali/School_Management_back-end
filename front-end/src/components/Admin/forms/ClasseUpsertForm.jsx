@@ -8,7 +8,7 @@ import {Loader} from "lucide-react";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {toast} from "sonner";
 import { useEffect, useState } from "react";
-import { ClasseApi } from "../../../service/api/student/admins/ClasseApi copy";
+import { ClasseApi } from "../../../service/api/student/admins/ClasseApi";
 
 const formSchema = z.object({
   name: z.string().max(50),

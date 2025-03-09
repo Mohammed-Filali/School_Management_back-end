@@ -32,8 +32,9 @@ import {
   } from "@/components/ui/sheet"
 
 import StudentUpsertForm from "../../forms/StudentUpsertForm";
-import { Trash2Icon } from "lucide-react";
+import { Loader2, Trash2Icon } from "lucide-react";
 import { AdminApi } from "../../../../service/api/student/admins/adminApi";
+import moment from "moment/moment";
 
 
 
@@ -44,11 +45,12 @@ import { AdminApi } from "../../../../service/api/student/admins/adminApi";
 
 export default function AdminStudentList({classe_id}) {
     const[data , setData] =useState([])
+    const [loading , setLoading]=useState(true)
     const [sudents, setStudnets]= useState([])
     useEffect(()=>{
         AdminApi.allsStudents().then(({data})=>{
 
-
+            setLoading(false)
            setData(data)
         })
     },[])
@@ -134,8 +136,9 @@ export default function AdminStudentList({classe_id}) {
           },
           cell: ({row}) => {
             const date = (row.getValue("updated_at"))
+            const formated =  moment(new Date(date).toString()).format('d-m-y')
 
-            return <div className="text-right font-medium">{date}</div>
+            return <div className="text-right font-medium">{formated}</div>
           },
         },
         {
@@ -148,8 +151,8 @@ export default function AdminStudentList({classe_id}) {
                   <SheetTrigger>
                     <Button size={'sm'}>Update</Button>
                   </SheetTrigger>
-                  <SheetContent>
-                    <SheetHeader>
+                  <SheetContent  className='overflow-y-auto p-4'>
+                  <SheetHeader>
                       <SheetTitle>Update student {name}</SheetTitle>
                       <SheetDescription>
                         Make changes to your student here. Click save when you're done.
@@ -209,6 +212,10 @@ export default function AdminStudentList({classe_id}) {
           },
         },
       ]
+
+      if (loading) return <div><div className="w-full  flex items-center justify-center">
+  <Loader2 className="w-12 h-12 animate-spin text-blue-500" />
+</div></div>;
 
 return<>
     <DataTable columns={studentColumns} data={sudents} />

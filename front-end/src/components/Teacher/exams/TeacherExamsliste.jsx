@@ -40,14 +40,18 @@ import { UseUserContext } from "../../../context/StudentContext";
 
 export default function TeacherExamsList() {
     const[data , setData] =useState([])
+    const [isLoading, setIsLoadin]=useState(true)
     const[exams , setExams] =useState([])
     const{user}= UseUserContext()
     useEffect(()=>{
         ExamApi.all().then(({data})=>{
-
+            setIsLoadin(false)
            setData(data.data)
            console.log(data.data);
 
+        }).catch((err)=>{
+            console.log(err);
+            setIsLoadin(false)
         })
     },[])
     useEffect(()=>{
@@ -150,19 +154,15 @@ export default function TeacherExamsList() {
                                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                                 <AlertDialogAction onClick ={async()=>{
 
-                                            const deletingLoader = toast.loading('Deleting in progress')
-                                    await ExamApi.delete(id).then(({status ,message})=>{
+                                    await ExamApi.delete(id).then(()=>{
 
-                                        if(status==201){
-                                            toast.dismiss(deletingLoader)
-                                            setData(data.filter((Exam)=>{
-                                                return Exam.id !=id
-                                            }));
+                                        const newdata =exams.filter((e)=>{
+                                            return e.id != id
+                                        })
+                                            setExams(newdata);
 
-                                            toast.success(message)
-                                        }else{
-                                            toast(message)
-                                        }
+                                            toast.success('message')
+                                        
 
 
                                      })
@@ -206,7 +206,7 @@ export default function TeacherExamsList() {
     ]
 
 return<>
-    <DataTable columns={TeacherExamsColumns} data={exams} />
+    <DataTable columns={TeacherExamsColumns} data={exams} isLoading={isLoading} />
 </>
 
 }

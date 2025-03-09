@@ -36,7 +36,6 @@ class ClasseController extends Controller
             'errors' => [
                 'message' => $e->getMessage(),
                 'code' => $e->getCode(),
-                // You can add more error details if needed, such as file/line info:
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),],
                 ], 500);
@@ -70,7 +69,6 @@ class ClasseController extends Controller
             'errors' => [
                 'message' => $e->getMessage(),
                 'code' => $e->getCode(),
-                // You can add more error details if needed, such as file/line info:
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),],
                 ], 500);
@@ -80,8 +78,9 @@ class ClasseController extends Controller
    /**
     * Remove the specified resource from storage.
     */
-   public function destroy(Classe $classe)
+   public function destroy($id)
    {
+    $classe =Classe::find($id);
        try{
            $classe->delete();
 
@@ -92,7 +91,6 @@ class ClasseController extends Controller
            ], 201);
 
        }catch (\Exception $e) {
-           // If something goes wrong, return an error message
            return response()->json([
               'message' => 'Failed to delete Classe',
                ], 500);

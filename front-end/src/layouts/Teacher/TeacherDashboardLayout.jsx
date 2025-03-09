@@ -5,9 +5,10 @@ import { UseUserContext } from "../../context/StudentContext.jsx";
 import {GaugeIcon} from "lucide-react";
 import {ModeToggle} from "../../components/mode-toggle.jsx";
 import {TeacherAdministrationSideBar} from "../Administration/TeacherAdministrationSideBar.jsx";
-import { LOGIN_ROUTE,RedirectRoute,STUDENT_DUSHBOARD_ROUTE, TEACHER_DASHBOARD_ROUTE } from "../../router/index.jsx";
+import { LOGIN_ROUTE,RedirectRoute, TEACHER_DASHBOARD_ROUTE } from "../../router/index.jsx";
 import TeacherDropDownMenu from "./TeacherDropDownMenu.jsx";
 import { TeacherApi } from "../../service/api/student/teacherApi.js";
+import IGO from '../../assets/Logo.png'
 
 export default function TeacherDashboardLayout() {
     const navigate = useNavigate()
@@ -46,26 +47,30 @@ export default function TeacherDashboardLayout() {
 
   return <>
     <header>
-      <div
-        className="items-center justify-between flex bg-opacity-90 px-12 py-4 mb-4 mx-auto">
-        <div className="text-2xl text-white font-semibold inline-flex items-center  text-gray-900 dark:text-white">
-          {/* <Logo/> */}
-        </div>
-        <div>
-          <ul className="flex text-white place-items-center">
-            <li className="ml-5 px-2 py-1">
-              <Link className={'flex  text-gray-900 dark:text-white'} to={TEACHER_DASHBOARD_ROUTE}><GaugeIcon className={'mx-1'}/>Dashboard</Link>
-            </li>
-            <li className="ml-5 px-2 py-1">
-              <TeacherDropDownMenu/>
-            </li>
-            <li className="ml-5 px-2 py-1">
-              <ModeToggle/>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </header>
+        <div className=" bg-white  max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between h-16">
+
+                <div className=" flex items-center">
+                      <img src={IGO} className="start-0" width={'200px'} alt="" />
+                    </div>
+
+
+                <div>
+              <ul className="flex text-white place-items-center">
+                <li className="ml-5 px-2 py-1">
+                  <Link className="flex items-center  text-gray-900 " to={TEACHER_DASHBOARD_ROUTE}><GaugeIcon className={'mx-1'}/>Dashboard</Link>
+                </li>
+                <li className="ml-5 px-2 py-1">
+                  <TeacherDropDownMenu/>
+                </li>
+                <li className="ml-5 px-2 py-1">
+                  <ModeToggle/>
+                </li>
+              </ul>
+                </div>
+            </div>
+          </div>
+        </header>
     <hr/>
     <main className={'mx-auto px-10 space-y-4 py-4'}>
       <div className="flex">

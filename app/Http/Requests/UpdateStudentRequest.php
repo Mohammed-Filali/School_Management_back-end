@@ -34,6 +34,7 @@ class UpdateStudentRequest extends FormRequest
             'email'        => 'required|email|',
             'password'     => 'required',
             'classe_id'     => 'required',
+            'student_parent_id'=>''
         ];
     }
 }

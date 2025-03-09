@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->enum('blood_Type',['O-','O+','A-','A+','B-','B+','AB-','AB+',])->nullable();
-            $table->foreignIdFor(StudentParent::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(StudentParent::class)->nullable()->constrained()->onDelete('cascade');
         });
     }
 

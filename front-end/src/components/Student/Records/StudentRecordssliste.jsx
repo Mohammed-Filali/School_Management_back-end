@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/sheet";
 import { StudentApi } from "../../../service/api/student/studentApi";
 import { UseUserContext } from "../../../context/StudentContext";
+import { Loader2 } from "lucide-react";
 
 export default function StudentRecordsList() {
   const { user } = UseUserContext();
@@ -139,7 +140,9 @@ export default function StudentRecordsList() {
 
   ];
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="w-full  flex items-center justify-center">
+  <Loader2 className="w-12 h-12 animate-spin text-blue-500" />
+</div>;
   if (error) return <div>{error}</div>;
 
   return <DataTable columns={RecordColumns} data={data} />;

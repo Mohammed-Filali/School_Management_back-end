@@ -7,7 +7,7 @@ import { Tabs ,TabsContent, TabsList, TabsTrigger} from "@radix-ui/react-tabs";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import AdminClasseList from "../data-table/classes/AdminClassesList.jsx";
 import ClasseUpsertForm from "../forms/ClasseUpsertForm.jsx";
-import { ClasseApi } from "../../../service/api/student/admins/ClasseApi copy.js";
+import { ClasseApi } from "../../../service/api/student/admins/ClasseApi.js";
 
 export default function ManageClasses() {
 

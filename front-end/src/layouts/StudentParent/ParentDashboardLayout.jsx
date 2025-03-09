@@ -8,6 +8,7 @@ import ParentDropDownMenu from "./ParentDropDownMenu.jsx";
 import { UseUserContext } from "../../context/StudentContext.jsx";
 import { ParentApi } from "../../service/api/student/admins/parenpApi.js";
 
+import IGO from '../../assets/Logo.png'
 export default function ParentDashboardLayout() {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(true);
@@ -46,15 +47,18 @@ export default function ParentDashboardLayout() {
 
   return <>
     <header>
-      <div
-        className="items-center justify-between flex bg-opacity-90 px-12 py-4 mb-4 mx-auto">
-        <div className="text-2xl text-white font-semibold inline-flex items-center  text-gray-900 dark:text-white">
-           {/* <Logo /> */}
-        </div>
-        <div>
+    <div className="bg-white  max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+
+            <div className=" flex items-center">
+                  <img src={IGO} className="start-0" width={'200px'} alt="" />
+                </div>
+
+
+            <div>
           <ul className="flex text-white place-items-center">
             <li className="ml-5 px-2 py-1">
-              <Link className="flex items-center  text-gray-900 dark:text-white" to={PARENT_DUSHBOARD_ROUTE}><GaugeIcon className={'mx-1'}/>Dashboard</Link>
+              <Link className="flex items-center  text-gray-900 " to={PARENT_DUSHBOARD_ROUTE}><GaugeIcon className={'mx-1'}/>Dashboard</Link>
             </li>
             <li className="ml-5 px-2 py-1">
               <ParentDropDownMenu/>
@@ -63,6 +67,7 @@ export default function ParentDashboardLayout() {
               <ModeToggle/>
             </li>
           </ul>
+            </div>
         </div>
       </div>
     </header>

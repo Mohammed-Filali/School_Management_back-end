@@ -32,7 +32,8 @@ export const AdminApi = {
         return data
     },
 
-    updateStudent: async (values,id)=>{
+    updateStudent: async (id,values)=>{
+        console.log(values);
 
         const {data} = await AxiosClient.patch(`/api/admin/students/${id}`,values);
         return data
@@ -41,7 +42,11 @@ export const AdminApi = {
 
         const {data} = await AxiosClient.post('/forgot-password',values);
         return data
-    }
+    },
+    update_Password : async (values)=>{
+        const {data} = await AxiosClient.post("/api/admin/update-password", values )
+    return data
+    },
 
 
 }

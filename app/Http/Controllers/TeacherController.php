@@ -30,7 +30,6 @@ class TeacherController extends Controller
         try{
             $teachrs=  $request->validated() ;
             $teachrs['password'] = Hash::make($teachrs['password']);
-            // $teachrs['last_login'] = new DateTime();
             $teacher =Teacher::create($teachrs);
             return response()->json([
                 'message' => 'teacher successfully created!',
@@ -39,13 +38,11 @@ class TeacherController extends Controller
             ], 201);
 
         } catch (\Exception $e) {
-            // If something goes wrong, return an error message
             return response()->json([
                'message' => 'Failed to create teacher',
             'errors' => [
                 'message' => $e->getMessage(),
                 'code' => $e->getCode(),
-                // You can add more error details if needed, such as file/line info:
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),],
                 ], 500);
@@ -66,14 +63,12 @@ class TeacherController extends Controller
     public function update(UpdateTeacherRequest $request, Teacher $teacher)
     {
 
-            // Update the teacher record
 
             $newteacher=$request->validated();
             $newteacher['password'] = Hash::make($newteacher['password']);
 
             $teacher->update($newteacher);
 
-            // Return a success response
             return response()->json([
                 'student' => new TeacherResource($teacher),
                 'message' => __('Student updated successfully')
@@ -95,7 +90,6 @@ class TeacherController extends Controller
             ], 201);
 
         }catch (\Exception $e) {
-            // If something goes wrong, return an error message
             return response()->json([
                'message' => 'Failed to delete teacher',
                 ], 500);
@@ -111,12 +105,10 @@ class TeacherController extends Controller
 
       $user = $request->user();
 
-      // Check current password
       if (!Hash::check($request->current_password, $user->password)) {
-          return response()->json(['error' => 'Current password is incorrect.'], 400);
+          return response()->json(['error' => 'Current password is incorrect.'], 200);
       }
 
-      // Update password
       $user->password = Hash::make($request->new_password);
       $user->save();
 

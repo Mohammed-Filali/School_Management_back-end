@@ -34,6 +34,7 @@ class StoreStudentRequest extends FormRequest
             'email'        => 'required|email|unique:'.User::class,
             'password'     => 'required',
             'classe_id'     => 'required',
+            'student_parent_id'=>''
 
         ];
     }

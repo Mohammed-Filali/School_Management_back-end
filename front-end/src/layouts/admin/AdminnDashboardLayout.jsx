@@ -1,12 +1,13 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { GaugeIcon } from "lucide-react";
 import AdminDropDownManu from "./AdminDropDown";
-import { STUDENT_DUSHBOARD_ROUTE, LOGIN_ROUTE, RedirectRoute } from "../../router";
+import { STUDENT_DUSHBOARD_ROUTE, LOGIN_ROUTE, RedirectRoute, ADMIN_DUSHBOARD_ROUTE } from "../../router";
 import { AdminAdministrationSideBare  } from "../administration/AdminAdministrationSideBare ";
 import { ModeToggle } from "../../components/mode-toggle";
 import { useEffect, useState } from "react";
 import { UseUserContext } from "../../context/StudentContext";
 import { AdminApi } from "../../service/api/student/admins/adminApi";
+import IGO from '../../assets/Logo.png'
 
 export default function AdminnDashboardLayout() {
   const navigate = useNavigate();
@@ -48,28 +49,30 @@ export default function AdminnDashboardLayout() {
   return (
     <>
       <header>
-        <div className="flex items-center justify-between bg-opacity-90 px-12 py-4 mb-4 mx-auto h-100">
-          <div className="text-2xl text-white font-semibold inline-flex items-center  text-gray-900 dark:text-white">
-            Student Dashboard
-          </div>
-          <div>
-            <ul className="flex text-white place-items-center">
-              <li className="ml-5 px-2 py-1">
-                <Link className="flex items-center  text-gray-900 dark:text-white " to={STUDENT_DUSHBOARD_ROUTE}>
-                  <GaugeIcon className="mx-1 " />
-                  Dashboard
-                </Link>
-              </li>
-              <li className="ml-5 px-2 py-1 ">
-                <AdminDropDownManu  />
-              </li>
-              <li className="ml-5 px-2 py-1">
-                <ModeToggle />
-              </li>
-            </ul>
-          </div>
-        </div>
-      </header>
+          <div className="bg-white  max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+              <div className="flex justify-between h-16">
+
+                  <div className=" flex items-center">
+                        <img src={IGO} className="start-0" width={'200px'} alt="" />
+                      </div>
+
+
+                  <div>
+                <ul className="flex text-white place-items-center">
+                  <li className="ml-5 px-2 py-1">
+                    <Link className="flex items-center  text-gray-900 " to={ADMIN_DUSHBOARD_ROUTE}><GaugeIcon className={'mx-1'}/>Dashboard</Link>
+                  </li>
+                  <li className="ml-5 px-2 py-1">
+                    <AdminDropDownManu/>
+                  </li>
+                  <li className="ml-5 px-2 py-1">
+                    <ModeToggle/>
+                  </li>
+                </ul>
+                  </div>
+              </div>
+            </div>
+          </header>
       <hr />
       <main className="mx-auto px-10 space-y-4 py-4">
         <div className="flex">

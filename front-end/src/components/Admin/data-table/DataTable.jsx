@@ -18,9 +18,10 @@ import { useState } from "react"
 
 import { DataTableViewOptions } from "./DataTableViewOptions"
 import { DataTablePagination } from "./DataTablePagination"
+import { Loader, Loader2 } from "lucide-react"
 
 
-  export function DataTable ({columns,data}) {
+  export function DataTable ({columns,data , isLoading}) {
     const [columnFilters, setColumnFilters] = useState([])
     const [columnVisibility, setColumnVisibility] =useState({})
     const [sorting, setSorting] = useState([])
@@ -53,8 +54,10 @@ import { DataTablePagination } from "./DataTablePagination"
       </div>
       <DataTableViewOptions table={table} />
 
-      <div className="rounded-md border w-full ">
-        <Table>
+
+        {isLoading ? <div className="w-full  flex items-center justify-center">
+      <Loader2 className="w-12 h-12 animate-spin text-blue-500" />
+    </div>:<div className="rounded-md border w-full "><Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -73,7 +76,7 @@ import { DataTablePagination } from "./DataTablePagination"
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+            <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -97,7 +100,7 @@ import { DataTablePagination } from "./DataTablePagination"
           </TableBody>
         </Table>
         <DataTablePagination table={table} />
-
-      </div>
+        </div>
+            }
       </>
   }

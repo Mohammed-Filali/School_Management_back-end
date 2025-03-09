@@ -24,4 +24,8 @@ class Course extends Model
     {
         return $this->hasMany(Exam::class);
     }
+
+    public function types(){
+        return $this ->belongsToMany(ClassType::class);
+    }
 }

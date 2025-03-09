@@ -28,12 +28,13 @@ import {
     SheetTrigger,
   } from "@/components/ui/sheet"
 import ClasseUpsertForm from "../../forms/ClasseUpsertForm";
-import { ClasseApi } from "../../../../service/api/student/admins/ClasseApi copy";
+import { ClasseApi } from "../../../../service/api/student/admins/ClasseApi";
 import ClaseCourForm from "../../forms/ClasseCoursForm";
 import { ClasseCoursApi } from "../../../../service/api/student/admins/ClasseCoursApi";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
-import {  MoreVertical } from "lucide-react";
+import {  Loader2, MoreVertical } from "lucide-react";
 import { CourApi } from "../../../../service/api/student/admins/CourApi";
+import moment from "moment/moment";
 
 
 
@@ -43,6 +44,8 @@ import { CourApi } from "../../../../service/api/student/admins/CourApi";
 
 
 export default function AdminClasseList() {
+
+    const [loading ,setLoading]=useState(true)
     const[data , setData] =useState([])
     const[CoursClass, setCoursClass] =useState([])
     const [cours , srtCours] = useState([])
@@ -55,6 +58,7 @@ export default function AdminClasseList() {
          })
         ClasseApi.types()
                      .then(({ data }) => {
+                        setLoading(false)
                        const classeTypeCourses = data?.data?.flatMap(item => item.classe_type_course || []); // Combine all classe_type_course arrays
                        if (classeTypeCourses.length > 0) {
                          setCoursClass(classeTypeCourses);
@@ -96,8 +100,8 @@ export default function AdminClasseList() {
 
               },
             cell: ({ row }) => {
-                const updated_at = (row.getValue("updated_at"))
-                const formated = new Date(updated_at).toString()
+                const date = (row.getValue("updated_at"))
+                const formated =  moment(new Date(date).toString()).format('d-m-y')
                 return <>{formated}</>
               },
         },
@@ -111,19 +115,19 @@ export default function AdminClasseList() {
 
 <DropdownMenu className="absolute ">
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0 relative">
+        <Button variant="ghost" className="h-8 w-8 p-0   relative">
           <span className="sr-only">Open menu</span>
           <MoreVertical className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="bg-white rounded-md shadow-md w-40 z-50 ">
+      <DropdownMenuContent align="end" className="bg-white rounded-md text-center shadow-md w-40 z-50 ">
         <DropdownMenuLabel className="text-gray-700 font-semibold">Actions</DropdownMenuLabel>
         <DropdownMenuSeparator className="border-gray-300" />
 
         {/* Delete Action */}
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button className="w-full bg-gray-50 text-left px-4 py-2 text-gray-700 hover:text-red-700 hover:bg-gray-50 rounded-md">Delete</Button>
+              <Button className="w-full bg-gray-50 text-left px-4 py-2 text-gray-700 hover:text-red-700 hover:bg-gray-200 rounded-md">Delete</Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
@@ -161,9 +165,9 @@ export default function AdminClasseList() {
           </AlertDialog><br/>
 
         {/* Update Action */}
-          <Sheet>
-            <SheetTrigger>
-              <Button className="w-full bg-gray-50 text-left px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md">Update</Button>
+          <Sheet >
+            <SheetTrigger className="w-full">
+              <Button className="w-full bg-gray-50 text-left px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-200 rounded-md">Update</Button>
             </SheetTrigger>
             <SheetContent>
               <SheetHeader>
@@ -182,7 +186,7 @@ export default function AdminClasseList() {
                       toast.success("Class updated successfully");
                     })
                   }
-                  values={{ id }}
+                  values={{ admin }}
                 />
               </SheetHeader>
             </SheetContent>
@@ -190,8 +194,8 @@ export default function AdminClasseList() {
 
         {/* Add Cour Action */}
           <Sheet>
-            <SheetTrigger>
-              <Button className="w-full bg-gray-50 text-left px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+            <SheetTrigger className="w-full">
+              <Button className="w-full bg-gray-50 text-left px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-200 rounded-md"
               >Add Cour</Button>
             </SheetTrigger>
             <SheetContent>
@@ -218,8 +222,8 @@ export default function AdminClasseList() {
 
 
           <Sheet>
-  <SheetTrigger>
-    <Button className="w-full bg-gray-50 text-left px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md">
+  <SheetTrigger className="w-full">
+    <Button className="w-full bg-gray-50 text-left px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-200 rounded-md">
       Cours
     </Button>
   </SheetTrigger>
@@ -277,6 +281,10 @@ export default function AdminClasseList() {
           },
     ]
 
+
+    if (loading) return <div><div className="w-full flex items-center justify-center">
+  <Loader2 className="w-12 h-12 animate-spin text-blue-500" />
+</div></div>;
 return<>
     <DataTable columns={AdminClassesColumns} data={data} />
 </>
