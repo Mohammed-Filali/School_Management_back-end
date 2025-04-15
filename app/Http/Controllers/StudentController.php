@@ -16,7 +16,7 @@ class StudentController extends Controller
 {
   public function index(): AnonymousResourceCollection
   {
-    return  StudentResource::collection(User::all())  ;
+    return  StudentResource::collection(User::with('attendance','classe','records.exams')->get())  ;
 }
 
   public function store(StoreStudentRequest $request): JsonResponse

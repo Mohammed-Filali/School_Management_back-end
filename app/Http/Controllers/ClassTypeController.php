@@ -6,6 +6,7 @@ use Log;
 use Storage;
 use App\Models\ClassType;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\ClasseTypeResource;
 
 class ClassTypeController extends Controller
@@ -16,7 +17,7 @@ class ClassTypeController extends Controller
     public function index()
     {
         return ClasseTypeResource::collection(
-            ClassType::with('classe', 'classeTypeCourse')->get()
+            ClassType::with('classe', 'classTypeCourses.course')->get()
         );
     }
 

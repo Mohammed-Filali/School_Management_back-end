@@ -20,4 +20,7 @@ class Classe extends Model
     public function classeType(){
         return $this->belongsTo(ClassType::class);
     }
+    public function students(){
+        return $this->hasMany(User::class);
+    }
 }

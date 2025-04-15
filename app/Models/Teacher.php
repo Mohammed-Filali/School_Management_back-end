@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
-use App\Models\Task;
+use App\Models\Exam;
 
+use App\Models\Task;
 use App\Models\Course;
+use App\Models\ClassTypeCourse;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Teacher extends Authenticatable
@@ -39,10 +41,20 @@ class Teacher extends Authenticatable
     {
         return $this->belongsTo(Course::class);
     }
+    public function classes()
+    {
+        return $this->hasMany(ClassTypeCourse::class);
+    }
 
     public function tasks(): MorphMany {
         return $this->morphMany(Task::class, 'taskable');
     }
+
+
+    public function exams () {
+        return $this->hasMany(Exam::class);
+    }
+
 
 
     protected $hidden = [

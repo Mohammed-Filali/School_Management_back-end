@@ -14,7 +14,7 @@ class ClassTypeCourseController extends Controller
      */
     public function index()
     {
-        return ClassTypeCourseResource::collection(ClassTypeCourse::with('classeType')->get());
+        return ClassTypeCourseResource::collection(ClassTypeCourse::with('classType')->get());
 
     }
 

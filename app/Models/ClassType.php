@@ -19,15 +19,21 @@ class ClassType extends Model
         'name',
         'code'
     ];
-    public function classe(){
-        return $this ->hasMany(Classe::class);
-    }
-    public function classeTypeCourse(){
-        return $this ->hasMany(ClassTypeCourse::class);
+    public function classe()
+    {
+        return $this->hasMany(Classe::class);
     }
 
-    public function Courses(){
-        return $this ->belongsToMany(Course::class);
+    // A ClassType has many ClassTypeCourses
+    public function classTypeCourses()
+    {
+        return $this->hasMany(ClassTypeCourse::class);
     }
 
-}
+    // Many-to-many relationship with Course (make sure there's a pivot table like class_type_course or course_class_type)
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class);
+    }
+    }
+

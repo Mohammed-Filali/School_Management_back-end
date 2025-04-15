@@ -15,7 +15,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        return CourResource::collection(Course::all()) ;
+        return CourResource::collection(Course::with('teachers')->get()); ;
     }
 
     /**

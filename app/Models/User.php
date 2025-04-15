@@ -4,6 +4,9 @@ namespace App\Models;
 
 use App\Models\Task;
 use App\Models\Classe;
+use App\Models\Attendance;
+use App\Models\ExamRecord;
+use App\Models\TotalRecords;
 use App\Models\StudentParent;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -65,6 +68,19 @@ class User extends Authenticatable
 
     public function tasks(): MorphMany {
         return $this->morphMany(Task::class, 'taskable');
+    }
+    public function attendance()
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
+    public function moyennes()
+    {
+        return $this->hasMany(TotalRecords::class);
+    }
+    public function records()
+    {
+        return $this->hasMany(ExamRecord::class);
     }
   /**
    * The attributes that should be cast.

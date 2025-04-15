@@ -14,7 +14,7 @@ class ClasseController extends Controller
    public function index()
    {
 
-       return ClasseResource::collection(Classe::with('classeType')->get()) ;
+       return ClasseResource::collection(Classe::with('classeType', 'students.records.exams','students.attendance')->get()) ;
    }
 
    /**

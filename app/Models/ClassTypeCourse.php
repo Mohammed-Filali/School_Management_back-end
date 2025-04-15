@@ -13,16 +13,31 @@ class ClassTypeCourse extends Model
 {
     use HasFactory, HasApiTokens , SoftDeletes , Notifiable;
 
-    protected $fillable =[
-        'coef',
-        'course_id',
-        'class_type_id',
-        'teacher_id',
-        'masseH'
-    ] ;
+        protected $fillable = [
+            'coef',
+            'course_id',
+            'class_type_id',
+            'teacher_id',
+            'masseH',
+        ];
 
-    public function classeType(){
-        return $this->belongsTo(ClassType::class);
-    }
+        // Option 2: Rename relationship (if you're using classeType consistently)
+        public function classType()
+        {
+            return $this->belongsTo(ClassType::class, 'class_type_id');
+        }
+
+
+        // Optional: if you have Course and Teacher models, define these too:
+        public function course()
+        {
+            return $this->belongsTo(Course::class);
+        }
+
+        public function teacher()
+        {
+            return $this->belongsTo(User::class, 'teacher_id');
+        }
+
 
 }

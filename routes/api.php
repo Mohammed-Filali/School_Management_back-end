@@ -1,19 +1,21 @@
 <?php
 
-use App\Http\Controllers\AdmineController;
-use App\Http\Controllers\TaskController;
-use App\Http\Controllers\ClasseController;
-use App\Http\Controllers\ClassTypeController;
-use App\Http\Controllers\ClassTypeCourseController;
-use App\Http\Controllers\CourseController;
-use App\Http\Controllers\ExamController;
-use App\Http\Controllers\ExamRecordController;
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\StudentParentController;
-use App\Http\Controllers\TeacherController;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ExamController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\AdmineController;
+use App\Http\Controllers\ClasseController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\ClassTypeController;
+use App\Http\Controllers\AttendanceController;
+
+use App\Http\Controllers\ExamRecordController;
+use App\Http\Controllers\TotalRecordController;
+use App\Http\Controllers\StudentParentController;
+use App\Http\Controllers\ClassTypeCourseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,17 +33,40 @@ Route::middleware(['auth:sanctum'])->group(static function () {
 
         // Include related data based on the user role
         if ($user->role === 'teacher') {
-            $user->load('course'); // Eager load course for teachers
+            $user->load(['course', 'classes.classType.classe.students.attendance', 'exams.records.student']);
+             // Eager load classes and their related course for teachers
         }
 
         if ($user->role === 'student') {
-            $user->load('classe'); // Eager load course for teachers
+            $user->load('classe', 'attendance','moyennes.course','records.exams.course');
+            $user->absent_count = \App\Models\Attendance::where('user_id', $user->id)
+                ->where('status', 'absent')
+                ->count();
+            $user->present_count = \App\Models\Attendance::where('user_id', $user->id)
+                ->where('status', 'present')
+                ->count();
+            $user->late_count = \App\Models\Attendance::where('user_id', $user->id)
+                ->where('status', 'late')
+                ->count();
+            return $user;
         }
+
         if ($user->role === 'parent') {
-            $user->load('students'); // Eager load course for teachers
+            $user->load('students.moyennes.course', 'students.records.exams.course', 'students.attendance'); // Eager load students for parents
         }
-      return $user;
+
+        // Add counts only for admin
+        if ($user->role === 'admin') {
+            $user->students_count = \App\Models\User::count();
+            $user->teachers_count = \App\Models\Teacher::count();
+            $user->parents_count = \App\Models\StudentParent::count();
+            $user->classes_count = \App\Models\Classe::count();
+            $user->attendances_count = \App\Models\Attendance::count();
+        }
+
+        return $user;
     });
+
   });
 
 Route::middleware(['auth:sanctum','ability:student'])->prefix('student')->group( static function(){
@@ -51,6 +76,9 @@ Route::middleware(['auth:sanctum','ability:student'])->prefix('student')->group(
     Route::apiResource('Exams', ExamController::class)->only(['index', 'show']);
     Route::apiResource('Records', ExamRecordController::class)->only(['index', 'show']);
     Route::post('/update-password', [StudentController::class, 'updatePassword']);
+    Route::prefix('attendance')->group(function () {
+        Route::get('/', [AttendanceController::class, 'index']);
+    });
 
 });
 
@@ -61,13 +89,23 @@ Route::middleware(['auth:sanctum','ability:parent'])->prefix('parent')->group( s
     Route::apiResource('Exams', ExamController::class)->only(['index', 'show']);
     Route::apiResource('Records', ExamRecordController::class)->only(['index', 'show']);
     Route::post('/update-password', [StudentParentController::class, 'updatePassword']);
+    Route::prefix('attendance')->group(function () {
+        Route::get('/', [AttendanceController::class, 'index']);
+    });
 
 });
 
 Route::apiResource('classeTypes', ClassTypeController::class)->only(['index', 'show']);
 Route::apiResource('cours', CourseController::class)->only(['index', 'show']);
 
+// routes/api.php
+Route::prefix('attendance')->group(function () {
+    Route::get('/', [AttendanceController::class, 'index']);
+    Route::post('/', [AttendanceController::class, 'store']);
+    Route::post('/bulk', [AttendanceController::class, 'bulkStore']);
+    Route::get('/stats', [AttendanceController::class, 'stats']);
 
+});
 
 Route::middleware(['auth:sanctum','ability:admin'])->prefix('admin')->group( static function(){
 
@@ -96,8 +134,16 @@ Route::middleware(['auth:sanctum','ability:teacher'])->prefix('teacher')->group(
     'cours' => CourseController::class,
     'Exams' => ExamController::class,
     'Records' => ExamRecordController::class,
+    'totalRecords' => TotalRecordController::class,
     ]) ;
     Route::post('/update-password', [TeacherController::class, 'updatePassword']);
+
+});
+Route::prefix('attendance')->group(function () {
+    Route::get('/', [AttendanceController::class, 'index']);
+    Route::post('/', [AttendanceController::class, 'store']);
+    Route::post('/bulk', [AttendanceController::class, 'bulkStore']);
+    Route::get('/stats', [AttendanceController::class, 'stats']);
 
 });
 
