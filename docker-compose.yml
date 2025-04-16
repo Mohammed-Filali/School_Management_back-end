@@ -19,10 +19,10 @@ services:
     image: mysql:8.0
     container_name: mysql_db
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: your_database_name
-      MYSQL_USER: user
-      MYSQL_PASSWORD: userpassword
+      MYSQL_ROOT_PASSWORD: SvVDLYJmMQjZpVZjeRClBQJfWqIDYyWu
+      MYSQL_DATABASE: railway
+      MYSQL_USER: root
+      MYSQL_PASSWORD: SvVDLYJmMQjZpVZjeRClBQJfWqIDYyWu
     volumes:
       - db_data:/var/lib/mysql
     networks:
