@@ -15,7 +15,6 @@ RUN apt-get update && apt-get install -y \
     git \
     libzip-dev \
     libpq-dev \
-    libmcrypt-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_mysql mbstring zip exif pcntl gd bcmath fileinfo
 
@@ -35,7 +34,6 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 RUN apt-get install -y nodejs npm
 
 # Build frontend assets
-RUN npm install && npm run build
 
 # Cache Laravel config
 RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
