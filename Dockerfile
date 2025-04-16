@@ -36,6 +36,6 @@ RUN apt-get install -y nodejs npm
 # Build frontend assets
 
 # Cache Laravel config
-RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
+RUN php artisan migrate --force && php artisan db:seed
 
 CMD ["php-fpm"]

@@ -85,9 +85,7 @@ Route::middleware(['auth:sanctum','ability:student'])->prefix('student')->group(
 
 Route::middleware(['auth:sanctum','ability:parent'])->prefix('parent')->group( static function(){
     Route::apiResource( 'parents' , StudentParentController::class)->only(['index', 'show','update']);
-    Route::apiResource('students' , StudentController::class)->only(['index', 'show']);
-    Route::apiResource('Exams', ExamController::class)->only(['index', 'show']);
-    Route::apiResource('Records', ExamRecordController::class)->only(['index', 'show']);
+    
     Route::post('/update-password', [StudentParentController::class, 'updatePassword']);
     Route::prefix('attendance')->group(function () {
         Route::get('/', [AttendanceController::class, 'index']);
